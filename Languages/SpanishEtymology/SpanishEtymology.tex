@@ -1,0 +1,144 @@
+\documentclass[12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}            % For using system fonts
+\usepackage[spanish,english]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\titleformat{\subsection}{\normalfont\large\sffamily\bfseries}{\hspace{0em}}{0em}{}
+
+\usepackage{tcolorbox}
+
+\setcounter{tocdepth}{1}
+
+% \setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+% Define etymology block
+\newtcolorbox{etymologybox}[1][]{
+	colback=white,
+	% colback=gray!5,
+	colframe=black!25,
+	fonttitle=\bfseries,
+	title=Etymology,
+	#1
+}
+
+% Fixed: Now includes etymology as argument #4
+\newcommand{\wordentry}[3]{
+	\section*{\textnormal{\LARGE \textbf{#1}} \large (#2)}
+	\addcontentsline{toc}{section}{#1} % Manually add the title to the ToC with normal size
+	\begin{etymologybox}
+		#3
+	\end{etymologybox}
+}
+
+\title{\Huge Etymología del Español\\\large Análisis y Origen de Palabras Seleccionadas}
+\author{Wang Shawn}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+	\newpage
+	
+	\chapter{Palabras Comunes}
+	
+	\wordentry{tarjeta}{card, ticket}{
+	Proviene del francés \textit{targette} (cerrojo pequeño), diminutivo de \textit{targe} (escudo). El significado moderno de “tarjeta” como pedazo de cartón o plástico proviene de su uso como identificador.
+	\begin{itemize}
+		\item From Old French: targette
+		
+		This is a diminutive of targe, which meant a small shield. The suffix -ette is a French diminutive, so targette literally meant little shield.
+		
+		\item From Latin: targa (Medieval Latin)
+		This term referred to a shield and is the ancestor of both French targe and Italian targa (which today can mean “license plate”).
+	\end{itemize}
+	}
+	
+	\subsection*{Evolution}
+	
+	\begin{itemize}
+		\item Originally, the word referred to a \textbf{small shield}.
+		\item Over time, the sense evolved metaphorically to mean a \textbf{small, flat object}, which is the shape of many cards.
+		\item By the time it entered \textbf{Spanish} (as tarjeta), it came to refer to things like:
+		\begin{itemize}
+			\item a \textbf{visiting card}
+			\item a \textbf{business card}
+			\item a \textbf{postcard}
+			\item later, \textbf{credit cards}, \textbf{ID cards}, etc.
+		\end{itemize}
+	\end{itemize}
+	
+	\subsection*{Summary}
+	
+	\textbf{tarjeta} = targette (Old French, "little shield") → from targe (shield) → from targa (Medieval Latin).
+	Over time, the term shifted from "small shield" to "small flat card."
+	
+	
+	
+	\wordentry{cuchillo}{knife}{
+	Deriva del latín vulgar *\textit{cultellus}, diminutivo de \textit{culter} (cuchillo grande, cuchilla para sacrificar animales).}
+	
+	\wordentry{efectivo}{cash, effective}{
+	Proviene del latín \textit{effectivus} (“que produce un efecto”), del verbo \textit{efficere} (“llevar a cabo”).
+	
+	\begin{itemize}
+		\item From Latin: effectīvus
+		\begin{itemize}
+			\item Meaning: productive, effective, that causes something to happen
+			\item Rooted in the verb efficere = to bring about, to accomplish, to produce
+		\end{itemize}
+	\end{itemize}
+	}
+	
+	
+	
+	\chapter{Palabras Relacionadas con Comida}
+	
+	\wordentry{cuchara}{spoon}{
+	Del latín tardío \textit{cochlear}, que designaba una cuchara o concha. Se relaciona con \textit{cochlea} (caracol).
+	\begin{itemize}
+		\item \textbf{From Late Latin}: cochleārium
+		
+		This was a \textbf{type of spoon} used in Roman times, especially for eating snails (Latin cochlea = snail or spiral).
+		
+		\item \textbf{From Latin}: cochlea
+		This originally meant \textbf{snail} or \textbf{spiral}, referring to the shape of a snail shell.
+	\end{itemize}
+	}
+	
+	\subsection{Evolution}
+	
+	\begin{itemize}
+		\item \textbf{cochlea} (snail/spiral) → \textbf{cochlearium} (spoon for eating snails)
+		
+		\item In \textbf{Vulgar Latin}, cochlearium gradually evolved phonetically and morphologically into \textbf{cuchara} in Spanish.
+	\end{itemize}
+	
+	\subsection{Related words in other languages}
+	
+	\begin{itemize}
+		\item \textbf{Portuguese}: colher
+		
+		\item \textbf{Italian}: cucchiaio
+		
+		\item \textbf{French}: cuillère
+	\end{itemize}
+	
+	\subsection{Summary}
+	
+	\textbf{cuchara} ← cochleārium (Late Latin, "spoon for snails") ← cochlea (Latin, "snail, spiral")
+	
+	➡ The name likely came from the \textbf{curved}, \textbf{spiral-like} shape of early spoons resembling snail shells.
+	
+	\wordentry{frijol}{bean}{
+	Del náhuatl \textit{etl} (frijol), a través del español caribeño y del contacto con lenguas indígenas mesoamericanas.}
+	
+	\wordentry{cerveza}{beer}{
+	Del latín \textit{cerevisia}, probablemente de origen celta, relacionado con \textit{Ceres} (diosa del grano).}
+	
+	\wordentry{menudo}{tripe stew, small pieces}{
+	Del latín \textit{minutus}, participio de \textit{minuere} (reducir, disminuir), usado para describir cosas pequeñas.}
+	
+\end{document}

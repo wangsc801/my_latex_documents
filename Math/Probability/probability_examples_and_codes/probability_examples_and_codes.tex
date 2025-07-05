@@ -1,0 +1,584 @@
+\documentclass[a4paper]{ctexbook}
+
+% Packages
+\usepackage{inputenc}
+\usepackage{amsmath}  % For math formulas
+\usepackage{amssymb}  % For additional math symbols
+\usepackage{amsfonts} % For more math fonts
+
+\usepackage{geometry} % For adjusting page margins
+\geometry{left=3.18cm,right=3.18cm,top=2.54cm,bottom=2.54cm}
+
+\usepackage{fontspec}
+\usepackage{multicol}
+
+%\setmainfont[
+%    Path = ./fonts/, % Assuming your font is in a 'fonts' subfolder
+%    Extension = .otf,
+%    UprightFont = *-Regular,
+%    BoldFont = *-Bold,
+%{SourceHanSerifSC}
+
+\setCJKmainfont[
+    Path = ./fonts/, % Assuming your font is in a 'fonts' subfolder
+    Extension = .ttf,
+    UprightFont = *-Regular,
+    BoldFont = *-Semibold,
+]{MiSans}
+
+\setmainfont[
+    Path = ./fonts/, % Assuming your font is in a 'fonts' subfolder
+    Extension = .ttf,
+    UprightFont = *-Regular,
+    BoldFont = *-Semibold,
+]{MiSans}
+
+
+\setmonofont[
+    Path=./fonts/, % Adjust this path if your fonts folder is elsewhere
+    Extension=.ttf, % Specify the file extension
+    UprightFont=*-Regular, % Use FiraCode-Regular.ttf for normal weight
+    BoldFont=*-Bold,       % Use FiraCode-Bold.ttf for bold weight (if you have it)
+    Contextuals=Alternate % This is crucial for Fira Code ligatures
+]{FiraCode}
+
+
+\usepackage{hyperref} % For hyperlinks within the document
+
+\usepackage{enumitem} % Provides enhanced control over lists
+
+\usepackage{titlesec} % Customizes section headings
+% Customize the format of section headings. Set the font to normal, large size, and bold.
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0em}{}
+
+% \usepackage[BoldFont,SlantFont]{xeCJK} % Mainly used to support Chinese characters
+%\usepackage{xeCJK}
+
+\usepackage{mdframed} % Creates framed boxes around text
+
+\usepackage{minted}
+
+\usepackage{setspace}
+\setstretch{1.25}
+
+\newcommand{\boldtitle}[1]{%
+    \par % Ensure it starts on a new line (new paragraph)
+    \setstretch{1.75}% Apply line spacing for this paragraph
+    ▫︎ \textbf{#1}\par% Add the symbol, bold text, and end the paragraph
+    \setstretch{1.0}% Reset line spacing for subsequent text
+}
+
+\newcommand{\separatorline}{
+	\vspace{1em}
+	\centerline{\rule{0.6\linewidth}{0.5pt}}
+	\vspace{1em}
+}
+
+
+\begin{document}
+
+\chapter{组合}
+
+\section{经典例题}
+
+\subsection*{不放回}
+
+一个盒子中有4个红球和6个白球，现从中不放回地随机抽取3个球，求恰好抽到2个红球和1个白球的概率。
+
+解答过程：
+
+\begin{enumerate}
+\item 
+计算总事件数：
+\[
+C(10,3) = \frac{10!}{3!(10-3)!} = \frac{10 \times 9 \times 8}{3 \times 2 \times 1} = 120
+\]
+
+\item 
+计算有利事件数：
+\[
+C(4,2) \times C(6,1) = \frac{4!}{2!2!} \times \frac{6!}{1!5!} = 6 \times 6 = 36
+\]
+
+\item 
+计算概率：
+\[
+P(A) = \frac{36}{120} = \frac{3}{10}
+\]
+\end{enumerate}
+
+答案：恰好抽到2个红球和1个白球的概率为 \(\boxed{\dfrac{3}{10}}\)。
+
+\subsubsection*{代码模拟}
+
+有红、黄、蓝、绿、紫5种颜色的球各一个，有放有回地拿球3次，求至少抽到一个红球的概率。
+
+\begin{minted}{python}
+import random
+
+def simulate_draws(num_simulations):
+    colors = ['红', '黄', '蓝', '绿', '紫']  # 球的颜色
+    success_count = 0  # 记录成功次数（至少抽到一次红球）
+
+    for _ in range(num_simulations):
+        draws = [random.choice(colors) for _ in range(3)]  # 抽取3次
+        if '红' in draws:  # 如果至少有一次是红色
+            success_count += 1
+
+    probability = success_count / num_simulations  # 成功的概率
+    return probability
+
+# 自定义模拟次数
+num_simulations = int(input("请输入模拟次数："))
+p = simulate_draws(num_simulations)
+
+print(f"在{num_simulations}次模拟中，至少抽到一次红球的概率为：{p:.4f}")
+\end{minted}
+
+\subsubsection*{一些疑问}
+对于计算组合数$C_k^n$, 我觉得用这种算法比较简单和快速： $\frac{n(n-1) \cdots (n-k+1)}{k(k-1) \cdots 1}$.
+但是为什么很多教科书里以这个公式为主：$C_k^n=\frac{n!}{k!(n-k)!}$.
+
+你提到的算法和教科书中的公式是\textbf{数学等价的}。它们只是表达方式不同，但计算结果一样。之所以教科书更常用后一种形式，是因为教科书强调公式的\textbf{一般性和简洁性}，更希望用\textbf{统一的符号表达复杂问题}。例如：
+
+\begin{itemize}
+\item 教科书里经常推导组合数的性质（如对称性 $C_k^n = C_{n-k}^n$\: 、递推公式 $C_k^n = C_{k-1}^{n-1} + C_k^{n-1}$），使用阶乘形式更容易进行代数操作。
+\item 用阶乘定义便于形式化定义，比如：
+\end{itemize}
+
+  $$
+  C_k^n = \frac{n!}{k!(n-k)!}, \quad \text{其中 } 0 \le k \le n
+  $$
+
+\chapter{概率论基础}
+
+\section{事件}
+
+设$A$，$B$，$C$表示三个随机事件，试将下列事件用$A$，$B$，$C$表示出来.
+
+\begin{multicols}{2}
+\begin{enumerate}[label=(\arabic*)]
+\item $A$出现，$B$，$C$不出现；
+\item $A$，$B$都出现，$C$不出现；
+\item 三个事件都出现；
+\item 三个事件至少有一个出现；
+\item 三个事件都不出现；
+\item 不多于一个事件出现；
+\item 不多于两个事件出现；
+\item 三个事件至少有两个出现；
+\item $A$，$B$至少有一个出现，$C$不出现；
+\item$A$，$B$，$C$中恰好有两个出现.
+\end{enumerate}
+\end{multicols}
+
+解答：
+
+\begin{enumerate}[label=(\arabic*)]
+\item $A$出现用$A$表示，$B$，$C$不出现用其对立事件表示，且同时发生，为积事件，所以表示为$A\overline{B}\,\overline{C}$；
+\item $A$，mB都出现，$C$不出现同时发生，为积事件，所以表示为$AB\overline{C}$；
+\item 三个事件都出现同时发生，为积事件，所以表示为$ABC$；
+\item 三个事件至少有一个出现，为和事件，所以表示为$A\cup B\cup C$；
+\item 三个事件都不出现同时发生，为积事件，所以表示为$\overline{A}\,\overline{B}\,\overline{C}$；
+\item 不多于一个事件出现的对立事件是至少出现两个事件，所以表示为$\overline{(AB) \cup (AC) \cup (BC)}$；
+\item 不多于两个事件出现的情况包含：三个事件都不出现、出现一个事件、出现两个事件，情况复杂；而该事件的对立事件仅有一种情况：三个时间都出现。因此，用简单事件的对立事件来表示。所以表示为$\overline{ABC}$；
+\item 三个事件至少有两个出现是和事件，所以表示为$(AB)$；
+\item $A$,$B$至少有一个出现是和事件，同时$C$不出现为积事件,所以表示为$(A \cup B) C$;
+\item 恰好有两个出现有三种互斥的情况，所以表示为$(AB\bar{C}) \cup (A\bar{B}C) \cup (\bar{A}BC)$..
+\end{enumerate}
+
+点评
+
+对于第6题，$(AB) \cup (AC) \cup (BC) \cup (ABC)$这个答案是冗余的。因为：
+
+\begin{enumerate}
+\item $ABC \subset AB$
+\item $ABC \subset AC$
+\item $ABC \subset BC$
+\end{enumerate}
+
+因此，将 $(ABC)$ 添加到并集不会改变任何内容 — — 它已经包含在内了。$(AB) \cup (AC) \cup (BC) \cup (ABC)$在逻辑上是多余的，但并非不正确。
+
+对于第10题，$((AB) \cup (AC) \cup (BC)) \cap (ABC)^c$也是正确的，它和$(AB\bar{C}) \cup (A\bar{B}C) \cup (\bar{A}BC)$是等价的。
+
+We start with:
+
+$$
+((AB) \cup (AC) \cup (BC)) \cap (ABC)^c
+$$
+
+This is the intersection of a union of 3 terms with the complement of $ABC$.
+
+Let’s denote:
+
+\begin{enumerate}
+\item $X = AB$
+\item $Y = AC$
+\item $Z = BC$
+\end{enumerate}
+
+So we have:
+$$
+(X \cup Y \cup Z) \cap (ABC)^c
+$$
+
+Now apply the \textbf{distributive law of set intersection over union}:
+
+$$
+(X \cup Y \cup Z) \cap (ABC)^c = (X \cap (ABC)^c) \cup (Y \cap (ABC)^c) \cup (Z \cap (ABC)^c)
+$$
+
+That is:
+
+$$
+(AB \cap (ABC)^c) \cup (AC \cap (ABC)^c) \cup (BC \cap (ABC)^c)
+$$
+
+Let’s now simplify each of the three terms.
+
+\textbf{Simplify each term}:
+
+1. $AB \cap (ABC)^c$
+
+Since $ABC \subset AB$, this becomes:
+
+$$
+AB \setminus ABC = AB \cap C^c
+$$
+
+2. $AC \cap (ABC)^c = AC \setminus ABC = AC \cap B^c$
+
+3. $BC \cap (ABC)^c = BC \setminus ABC = BC \cap A^c$
+
+Final Result:
+
+$$
+(AB \cap C^c) \cup (AC \cap B^c) \cup (BC \cap A^c)
+$$
+
+\separatorline
+
+Here's the explaination of $\setminus$.
+
+1. What does the symbol “$\setminus$” mean?
+
+The symbol $\setminus$ denotes \textbf{set difference} (also called \textbf{relative complement}).
+
+\textbf{Definition}:
+
+For two events (sets) $X$ and $Y$,
+
+$$
+X \setminus Y = { \omega \in X : \omega \notin Y } = X \cap Y^c
+$$
+
+That is: the set of elements that are in $X$ \textbf{but not} in $Y$.
+
+
+2. Apply this to $AB \setminus ABC$
+
+Here:
+\begin{itemize}
+\item 
+$AB = A \cap B$
+
+\item 
+$ABC = A \cap B \cap C$
+
+\end{itemize}
+
+So:
+
+$$
+AB \setminus ABC = AB \cap (ABC)^c
+$$
+
+This says: keep only those elements in $A \cap B$ \textbf{that are not} in $A \cap B \cap C$. In other words, all outcomes where $A$ and $B$ occur, but \textbf{not} $C$.
+
+\hrulefill
+
+3. Simplify $AB \cap (ABC)^c$
+
+Since $ABC = A \cap B \cap C$, its complement is:
+
+$$
+(ABC)^c = (A \cap B \cap C)^c
+$$
+
+Now, intersecting with $AB$:
+
+$$
+AB \cap (A \cap B \cap C)^c
+$$
+
+Note:
+\begin{itemize}
+\item 
+$AB$ is a subset of $A \cap B$, so we can factor:
+
+\end{itemize}
+
+$$
+AB \cap (ABC)^c = AB \cap C^c
+$$
+
+This makes sense: from $AB$, we remove those outcomes where $C$ is also true — i.e., we keep only those with $A$ \textbf{and} $B$ \textbf{occurring}, but \textbf{not} $C$.
+
+\hrulefill
+
+Final Result:
+
+$$
+AB \setminus ABC = AB \cap C^c
+$$
+
+is valid because it literally means:
+
+Take the set where both $A$ and $B$ occur, and \textbf{exclude} the outcomes where $C$ also occurs.
+
+\hrulefill
+
+Summary:
+
+\begin{tabular}{l l}
+Expression & Meaning \\
+\hline
+$X \setminus Y$ & Elements in $X$ but not in $Y$, or $X \cap Y^c$ \\
+$AB \setminus ABC$ & Outcomes where $A$ and $B$ occur, but $C$ does not \\
+Simplified as & $AB \cap C^c$ \\
+\end{tabular}
+
+\section{全概率公式}
+
+全概率公式的核心思想是：\textbf{将一个复杂事件分解为多个互斥且完备的小事件}，然后通过这些小事件的概率来计算复杂事件的概率。
+
+公式如下：
+
+\[
+P(A) = \sum_{i=1}^n P(A \mid B_i) \cdot P(B_i)
+\]
+
+其中：
+\begin{itemize}
+\item \( B_1, B_2, \dots, B_n \) 是互斥且完备的事件（即它们覆盖所有可能性，且两两不相交）。
+\item \( P(A \mid B_i) \) 是在事件 \( B_i \) 发生的条件下，事件 \( A \) 发生的概率。
+\end{itemize}
+
+\subsection*{例子：掷骰子}
+
+假设我们有一个公平的六面骰子，编号为 1 到 6。我们定义：
+
+\begin{itemize}
+\item 事件 \( A \)：掷出的点数是偶数。
+\item 事件 \( B_1 \)：掷出的点数是 1、2 或 3。
+\item 事件 \( B_2 \)：掷出的点数是 4、5 或 6。
+\end{itemize}
+
+\textbf{问题}：求事件 \( A \) 的概率 \( P(A) \)。
+
+\separatorline
+
+\textbf{步骤 1：分解事件}
+
+首先，我们将事件 \( A \) 分解为两个互斥且完备的事件：
+
+\begin{enumerate}[label=\arabic*.]
+\item 事件 \( A \) 且 \( B_1 \) 发生：掷出 2。
+\item 事件 \( A \) 且 \( B_2 \) 发生：掷出 4 或 6。
+\end{enumerate}
+
+\textbf{步骤 2：计算条件概率}
+
+\begin{itemize}
+\item \( P(A \mid B_1) \)：在 \( B_1 \) 发生的条件下，\( A \) 发生的概率。
+	\begin{itemize}
+		\item \( B_1 \) 包含的点数是 1、2、3，其中只有 2 是偶数。
+		\item 所以 \( P(A \mid B_1) = \frac{1}{3} \)。
+	\end{itemize}
+\item \( P(A \mid B_2) \)：在 \( B_2 \) 发生的条件下，\( A \) 发生的概率。
+	\begin{itemize}
+		\item \( B_2 \) 包含的点数是 4、5、6，其中 4 和 6 是偶数。
+		\item 所以 \( P(A \mid B_2) = \frac{2}{3} \)。
+	\end{itemize}
+\end{itemize}
+
+\textbf{步骤 3：计算 \( B_1 \) 和 \( B_2 \) 的概率}
+
+\begin{itemize}
+\item \( P(B_1) = \frac{3}{6} = \frac{1}{2} \)。
+\item \( P(B_2) = \frac{3}{6} = \frac{1}{2} \)。
+\end{itemize}
+
+\textbf{步骤 4：应用全概率公式}
+
+根据全概率公式：
+
+\[
+P(A) = P(A \mid B_1) \cdot P(B_1) + P(A \mid B_2) \cdot P(B_2)
+\]
+
+代入数值：
+
+\[
+P(A) = \left(\frac{1}{3}\right) \cdot \left(\frac{1}{2}\right) + \left(\frac{2}{3}\right) \cdot \left(\frac{1}{2}\right) = \frac{1}{6} + \frac{2}{6} = \frac{3}{6} = \frac{1}{2}
+\]
+
+\subsection*{例子：抽奖问题}
+
+假设有一个抽奖箱，里面有 3 个盒子：
+\begin{itemize}
+\item 
+盒子 1：2 个红球，3 个蓝球。
+
+\item 
+盒子 2：4 个红球，1 个蓝球。
+
+\item 
+盒子 3：3 个红球，2 个蓝球。
+\end{itemize}
+
+规则：
+\begin{itemize}
+\item 
+先随机选择一个盒子（选择每个盒子的概率相等，即 \( \frac{1}{3} \)）。
+
+\item 
+然后从选中的盒子中随机抽一个球。
+\end{itemize}
+
+问题：求抽到红球的概率 \( P(\text{红球}) \)。
+
+\separatorline
+
+\textbf{步骤 1：定义事件}
+
+\begin{itemize}
+\item 
+设 \( B_1 \) 为选择盒子 1，\( B_2 \) 为选择盒子 2，\( B_3 \) 为选择盒子 3。
+
+\item 
+设 \( A \) 为抽到红球。
+
+\end{itemize}
+
+
+\textbf{步骤 2：计算条件概率}
+
+\begin{itemize}
+\item 
+在盒子 1 中，红球的概率是：
+\[
+P(A \mid B_1) = \frac{2}{2+3} = \frac{2}{5}
+\]
+
+\item 
+在盒子 2 中，红球的概率是：
+\[
+P(A \mid B_2) = \frac{4}{4+1} = \frac{4}{5}
+\]
+
+\item 
+在盒子 3 中，红球的概率是：
+\[
+P(A \mid B_3) = \frac{3}{3+2} = \frac{3}{5}
+\]
+\end{itemize}
+
+\textbf{步骤 3：计算选择盒子的概率}
+
+每个盒子被选中的概率相等：
+\[
+P(B_1) = P(B_2) = P(B_3) = \frac{1}{3}
+\]
+
+\textbf{步骤 4：应用全概率公式}
+
+根据全概率公式：
+
+\[
+P(A) = P(A \mid B_1) \cdot P(B_1) + P(A \mid B_2) \cdot P(B_2) + P(A \mid B_3) \cdot P(B_3)
+\]
+
+代入数值：
+
+\[
+P(A) = \left(\frac{2}{5}\right) \cdot \left(\frac{1}{3}\right) + \left(\frac{4}{5}\right) \cdot \left(\frac{1}{3}\right) + \left(\frac{3}{5}\right) \cdot \left(\frac{1}{3}\right)
+\]
+
+计算：
+
+\[
+P(A) = \frac{2}{15} + \frac{4}{15} + \frac{3}{15} = \frac{9}{15} = \frac{3}{5}
+\]
+
+\subsection*{例子：疾病检测}
+
+假设某疾病的发病率为 1\%（即 \( P(D) = 0.01 \)），检测方法的准确率为：
+
+\begin{itemize}
+\item 如果患病，检测结果为阳性的概率是 99\%（即 \( P(T^+ \mid D) = 0.99 \)）。
+\item 如果未患病，检测结果为阳性的概率是 5\%（即 \( P(T^+ \mid \neg D) = 0.05 \)）。
+\end{itemize}
+
+\textbf{问题}：求检测结果为阳性的概率 \( P(T^+) \)。
+
+\separatorline
+
+\textbf{步骤 1：分解事件}
+
+事件 \( T^+ \) 可以分解为：
+
+\begin{enumerate}[label=\arabic*.]
+\item 患病且检测为阳性：\( D \cap T^+ \)。
+\item 未患病且检测为阳性：\( \neg D \cap T^+ \)。
+\end{enumerate}
+
+\textbf{步骤 2：应用全概率公式}
+
+\[
+P(T^+) = P(T^+ \mid D) \cdot P(D) + P(T^+ \mid \neg D) \cdot P(\neg D)
+\]
+
+代入数值：
+
+\[
+P(T^+) = (0.99 \cdot 0.01) + (0.05 \cdot 0.99) = 0.0099 + 0.0495 = 0.0594
+\]
+
+% pip install Pygments latexminted
+% 如果出现错误，记得删除_minted文件夹
+
+\subsubsection*{代码模拟}
+
+使用蒙特卡洛模拟（即随机模拟）的方式来估算这个概率。
+
+\begin{minted}{python}
+import random
+
+def simulate_positive_test(num_simulations):
+    positive_count = 0
+
+    for _ in range(num_simulations):
+        # 是否患病
+        if random.random() < 0.01:
+            # 患病，检查是否阳性
+            if random.random() < 0.99:
+                positive_count += 1
+        else:
+            # 未患病，检查是否阳性
+            if random.random() < 0.05:
+                positive_count += 1
+
+    return positive_count / num_simulations
+
+# 设置模拟次数
+num_simulations = int(input("请输入模拟次数："))
+p = simulate_positive_test(num_simulations)
+
+print(f"在{num_simulations}次模拟中, 检测结果为阳性的概率约为: {p:.4f}")
+\end{minted}
+
+\textbf{总结}
+
+全概率公式的核心思想是：\textbf{将复杂事件分解为多个互斥且完备的小事件}，然后通过条件概率和边缘概率计算复杂事件的概率。通过简单的例子（如掷骰子）和复杂的例子（如疾病检测），我们可以更好地理解和应用这一公式。
+
+\end{document}
