@@ -1,0 +1,67 @@
+\documentclass[a4paper,10pt]{ctexbook}
+\usepackage{amsmath,amssymb, amsfonts}
+\usepackage{exscale}
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+
+\title{不等式}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\newpage
+
+\chapter{均值不等式}
+
+\section{$\sqrt{ab} \leqslant \frac{a+b}{2}$}
+
+若$ a > 0 $，$ b > 0 $，则$ \sqrt{ab} \le \frac{a+b}{2} $
+
+\subsection{证明}
+
+\[ (c-d)^2 \ge 0 \]
+\[ c^2 + d^2 - 2cd \ge 0 \]
+\[ c^2 + d^2 \ge 2cd \]
+\[ \frac{c^2 + d^2}{2} \ge cd \]
+令$ c^2 = a $，$ d^2 = b $，得$ c = \sqrt{a}$，$ d = \sqrt{b} $.
+
+于是有
+\[ \frac{a+b}{2} \ge \sqrt{a} \cdot \sqrt{b} = \sqrt{ab} \]
+
+\subsection{使用规则}
+
+1正2定3相等。
+
+“正”的意思是$a$和$b$都是正数。
+
+“定”的意思是加和（$a + b$）和乘积（$a \cdot b$）是定值，即具体的值，有了具体的值就能确定范围。如果不是定值，例如$ 2 \sqrt{\frac{1}{x}} $，那么意义就不大了。
+
+“相等”的意思是当$a$和$b$相等时（例如$x$=$\frac{1}{x}$时），均值不等式能取到等号。这一点可以从$ (c-d)^2 \ge 0 $看出。
+
+\section{均值不等式的高级形态}
+
+\[ \sqrt{ab} \le \frac{a+b}{2} \le \sqrt{ \frac{a^2 + b^2}{2} }\]
+
+此形态在高中数学中有个重要的作用——三态转化。“三态”为“乘积”、“加和”以及“平方和”。有了该高级形态后，加和、乘积、平方和之间可以随意转换。
+
+\section{例题}
+
+\subsection{“1”的替换}
+
+例题1：设$a>0$，$b>0$，若$ a+b=1 $，则$ \frac{1}{a} + \frac{1}{b} $的最小值是（    ）
+
+A.2 \quad B.$\frac{1}{4}$ \quad  C.4 \quad D. 8
+
+解析：因为$\frac{1}{a}+\frac{1}{b}=(\frac{1}{a}+\frac{1}{b})\cdot1$，$a+b=1$，
+所以$\frac{1}{a}+\frac{1}{b}=(\frac{1}{a}+\frac{1}{b})\cdot(a+b)=1+\frac{b}{a}+\frac{a}{b}+1=2+\frac{b}{a}+\frac{a}{b}$
+
+因为$\frac{b}{a}+\frac{a}{b} \ge 2\sqrt{\frac{b}{a}\cdot\frac{a}{b}}=2$，所以$\frac{b}{a}+\frac{a}{b} \ge 2$，
+
+所以$\frac{1}{a}+\frac{1}{b}$的最小值为4. 选C.
+
+% 参考https://www.bilibili.com/video/BV1tL4y1W7w5
+
+
+\end{document}

@@ -1,18 +1,48 @@
-\documentclass[12pt]{book}
+\documentclass[10pt]{book}
 \usepackage[utf8]{inputenc}
-\usepackage{fontspec}            % For using system fonts
+\usepackage{fontenc}
 \usepackage[spanish,english]{babel}
+% Greek text support - using Unicode directly with fontspec
 \usepackage{amsmath,amssymb}
 \usepackage{enumitem}
 \usepackage{titlesec}
-\titleformat{\subsection}{\normalfont\large\sffamily\bfseries}{\hspace{0em}}{0em}{}
-
 \usepackage{tcolorbox}
+\usepackage{needspace}
+
+\usepackage{geometry}
+
+
+
+%\setmainfont{Latin Modern Roman}
+
+\titleformat{\section}{\normalfont\LARGE\sffamily\bfseries}{\hspace{0em}}{0em}{\nopagebreak[4]}
+\titleformat{\subsection}{\normalfont\sffamily\bfseries}{\hspace{0em}}{0em}{\nopagebreak[4]}
+%\titleformat{\subsection}{\normalfont\sffamily\bfseries}{\hspace{0em}}{0em}{}
 
 \setcounter{tocdepth}{1}
 
-% \setlength{\parskip}{0.5em}
+% Reduce line spacing
+\linespread{1.1}
+
+% Reduce paragraph spacing
+\setlength{\parskip}{0.2em}
+
+% Reduce itemize spacing
+\setlength{\itemsep}{0.1em}
+\setlength{\parsep}{0.1em}
+
+% Reduce section spacing
+\titlespacing{\section}{0pt}{1.5em}{0.2em}
+\titlespacing{\subsection}{0pt}{0.3em}{0.1em}
+
 \setlength{\parindent}{0pt}
+
+% Prevent orphaned sections and subsections
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+\interlinepenalty=10000
+\brokenpenalty=10000
 
 % Define etymology block
 \newtcolorbox{etymologybox}[1][]{
@@ -21,17 +51,34 @@
 	colframe=black!25,
 	fonttitle=\bfseries,
 	title=Etymology,
+	boxsep=0.3em,
+	left=0.5em,
+	right=0.5em,
+	top=0.3em,
+	bottom=0.3em,
 	#1
 }
 
-% Fixed: Now includes etymology as argument #4
-\newcommand{\wordentry}[3]{
-	\section*{\textnormal{\LARGE \textbf{#1}} \large (#2)}
-	\addcontentsline{toc}{section}{#1} % Manually add the title to the ToC with normal size
+\newcommand{\wordentry}[2]{
+	\large #1
+	\vspace{-0.5em}
 	\begin{etymologybox}
-		#3
+		#2
 	\end{etymologybox}
 }
+
+% Command to ensure enough space before a section
+\newcommand{\ensurespace}[1][6]{
+	\needspace{#1\baselineskip}
+}
+
+% Redefine section to include space checking
+\let\oldsection\section
+\renewcommand{\section}[1]{
+	\needspace{8\baselineskip}
+	\oldsection{#1}
+}
+
 
 \title{\Huge Etymología del Español\\\large Análisis y Origen de Palabras Seleccionadas}
 \author{Wang Shawn}
@@ -39,20 +86,33 @@
 
 \begin{document}
 	\maketitle
+	
+	\clearpage
 	\tableofcontents
+	
 	\newpage
+	
+	\newgeometry{
+		inner=3.0cm,
+		outer=2.5cm,
+		top=2.5cm,
+		bottom=2.0cm,
+		bindingoffset=1.0cm
+	}
 	
 	\chapter{Palabras Comunes}
 	
-	\wordentry{tarjeta}{card, ticket}{
-	Proviene del francés \textit{targette} (cerrojo pequeño), diminutivo de \textit{targe} (escudo). El significado moderno de “tarjeta” como pedazo de cartón o plástico proviene de su uso como identificador.
+	\section{tarjeta}
+	\wordentry{card, ticket}{
+	Proviene del francés \textit{targette} (cerrojo pequeño), diminutivo de \textit{targe} (escudo). El significado moderno de "tarjeta" como pedazo de cartón o plástico proviene de su uso como identificador.
 	\begin{itemize}
 		\item From Old French: targette
 		
 		This is a diminutive of targe, which meant a small shield. The suffix -ette is a French diminutive, so targette literally meant little shield.
 		
 		\item From Latin: targa (Medieval Latin)
-		This term referred to a shield and is the ancestor of both French targe and Italian targa (which today can mean “license plate”).
+		
+		This term referred to a shield and is the ancestor of both French targe and Italian targa (which today can mean "license plate").
 	\end{itemize}
 	}
 	
@@ -61,7 +121,7 @@
 	\begin{itemize}
 		\item Originally, the word referred to a \textbf{small shield}.
 		\item Over time, the sense evolved metaphorically to mean a \textbf{small, flat object}, which is the shape of many cards.
-		\item By the time it entered \textbf{Spanish} (as tarjeta), it came to refer to things like:
+		\item By the time it entered Spanish (as tarjeta), it came to refer to things like:
 		\begin{itemize}
 			\item a \textbf{visiting card}
 			\item a \textbf{business card}
@@ -72,16 +132,48 @@
 	
 	\subsection*{Summary}
 	
-	\textbf{tarjeta} = targette (Old French, "little shield") → from targe (shield) → from targa (Medieval Latin).
+	\textbf{tarjeta} = targette (Old French, "little shield") $\rightarrow$ from \textbf{targe} (shield) $\rightarrow$ from \textbf{targa} (Medieval Latin).
 	Over time, the term shifted from "small shield" to "small flat card."
 	
 	
+	\section{cuchillo}
 	
-	\wordentry{cuchillo}{knife}{
-	Deriva del latín vulgar *\textit{cultellus}, diminutivo de \textit{culter} (cuchillo grande, cuchilla para sacrificar animales).}
+	\wordentry{knife}{
+	Deriva del latín vulgar *\textit{cultellus}, diminutivo de \textit{culter} (cuchillo grande, cuchilla para sacrificar animales).
+	\begin{itemize}
+		\item From Late Latin: cultellus
+		\begin{itemize}
+			\item A diminutive of culter, meaning knife, blade, plowshare
+			\item So cultellus = little knife
+		\end{itemize}
+	\end{itemize}
+	}
 	
-	\wordentry{efectivo}{cash, effective}{
-	Proviene del latín \textit{effectivus} (“que produce un efecto”), del verbo \textit{efficere} (“llevar a cabo”).
+	\subsection*{Latin Components}
+	
+	\begin{itemize}
+		\item culter = knife, blade (also used for plow blades or sacrificial knives)
+		
+		\item ellus = Latin diminutive suffix
+		
+		\item $\rightarrow$ cultellus = small knife, which over time evolved phonetically into cuchillo in Old Spanish
+	\end{itemize}
+	
+	\subsection*{Related words in other languages}
+	\begin{itemize}
+		\item Italian: coltello
+		\item French: couteau
+		\item Portuguese: cutelo (a cleaver), faca (general term for knife)
+	\end{itemize}
+	
+	\subsection{Summary}
+	cuchillo $\leftarrow$ cultellus (Late Latin, "small knife") $\leftarrow$ culter (Latin, "knife, blade")
+	
+	$\Rightarrow$ Over time, the word shifted phonologically and semantically to the familiar Spanish term for knife.
+	
+	\section{efectivo}
+	\wordentry{cash, effective}{
+	Proviene del latín \textit{effectivus} ("que produce un efecto"), del verbo \textit{efficere} ("llevar a cabo").
 	
 	\begin{itemize}
 		\item From Latin: effectīvus
@@ -92,53 +184,306 @@
 	\end{itemize}
 	}
 	
+	\subsection{Latin Components}
 	
-	
-	\chapter{Palabras Relacionadas con Comida}
-	
-	\wordentry{cuchara}{spoon}{
-	Del latín tardío \textit{cochlear}, que designaba una cuchara o concha. Se relaciona con \textit{cochlea} (caracol).
 	\begin{itemize}
-		\item \textbf{From Late Latin}: cochleārium
-		
-		This was a \textbf{type of spoon} used in Roman times, especially for eating snails (Latin cochlea = snail or spiral).
-		
-		\item \textbf{From Latin}: cochlea
-		This originally meant \textbf{snail} or \textbf{spiral}, referring to the shape of a snail shell.
+		\item ex- = out, from
+		\item facere = to do, to make
+		\item $\rightarrow$ efficere = to bring into being, to make happen
+		\item $\rightarrow$ effectus = result, effect, outcome
+		\item $\rightarrow$ effectīvus = producing an effect
 	\end{itemize}
-	}
 	
 	\subsection{Evolution}
 	
 	\begin{itemize}
-		\item \textbf{cochlea} (snail/spiral) → \textbf{cochlearium} (spoon for eating snails)
-		
-		\item In \textbf{Vulgar Latin}, cochlearium gradually evolved phonetically and morphologically into \textbf{cuchara} in Spanish.
+		\item Originally, efectivo referred to something real, actual, as opposed to theoretical.
+		\item Then it came to mean effective — something that works or has an effect.
+		\item Later, in military and administrative contexts, efectivo referred to actual available personnel or resources (i.e., real, present, not just on paper).
+		\item Finally, in finance, it came to refer to cash (as opposed to credit), i.e., real money in hand.
 	\end{itemize}
 	
-	\subsection{Related words in other languages}
+	\subsection{Summary}
+	efectivo $\leftarrow$ effectīvus (Latin, "productive, real, that causes something") $\leftarrow$ efficere ("to accomplish") $\leftarrow$ ex- + facere ("to make").
+	
+	$\Rightarrow$ Over time, the word shifted from "producing a result" $\rightarrow$ "real/present" $\rightarrow$ "cash on hand".
+
+\chapter{Color}
+
+	\section{title}
+\chapter{Relacionadas con Comida}
+	
+	\section{Cuchara}
+	\wordentry{spoon}{
+	Del latín tardío \textit{cochlear}, que designaba una cuchara o concha. Se relaciona con \textit{cochlea} (caracol).
+	\begin{itemize}
+		\item From Late Latin: cochleārium
+		
+		This was a \textbf{type of spoon} used in Roman times, especially for eating snails (Latin cochlea = snail or spiral).
+		
+		\item From Latin: cochlea
+		This originally meant \textbf{snail} or \textbf{spiral}, referring to the shape of a snail shell.
+	\end{itemize}
+	}
+	
+	\subsection*{Evolution}
+	\begin{itemize}
+		\item cochlea (snail/spiral) → cochlearium (spoon for eating snails)
+		
+		\item In Vulgar Latin, cochlearium gradually evolved phonetically and morphologically into \textbf{cuchara} in Spanish.
+	\end{itemize}
+	
+	\subsection*{Related words in other languages}
 	
 	\begin{itemize}
-		\item \textbf{Portuguese}: colher
+		\item Portuguese: colher
 		
-		\item \textbf{Italian}: cucchiaio
+		\item Italian: cucchiaio
 		
-		\item \textbf{French}: cuillère
+		\item French: cuillère
+	\end{itemize}
+	
+	\subsection*{Summary}
+	
+	cuchara $\leftarrow$ cochleārium (Late Latin, "spoon for snails") $\leftarrow$ cochlea (Latin, "snail, spiral")
+	
+	$\Rightarrow$ The name likely came from the curved, spiral-like shape of early spoons resembling snail shells.
+	
+	\section{Bife}
+	\wordentry{steak}{
+		Proviene del inglés \textit{beefsteak}, que a su vez deriva de las palabras \textit{beef} (carne de res) y \textit{steak} (trozo de carne). El término fue adoptado por el español, especialmente en América Latina.
+		
+		\begin{itemize}
+			\item From English: beefsteak
+			
+			\textit{Beefsteak} comes from the combination of \textbf{beef} (meat of a cow) and \textbf{steak} (a piece of meat, particularly one that is cut and usually grilled or fried).
+			
+			\item From Old French: \textit{bœuf} (beef)
+			
+			Old French \textit{bœuf} (from Latin bovem) means \textbf{ox, bull}, and gave rise to the modern English word beef.
+		\end{itemize}
+	}
+	
+	\subsection*{Evolution}
+	\begin{itemize}
+		\item \textit{beef} (meat of a cow) + \textit{steak} (a cut of meat) → \textit{beefsteak} (a specific term for a piece of beef)
+		\item The term was adopted into \textbf{Spanish} during the \textbf{colonial era}, particularly in regions influenced by English-speaking cultures, like the Caribbean.
+		\item \textit{Bife} evolved as a local term used widely across Latin America, especially in countries like Argentina and Uruguay, to refer to \textbf{steak} or \textbf{beef cuts}.
+	\end{itemize}
+	
+	\subsection*{Related words in other languages}
+	\begin{itemize}
+		\item Portuguese: bife (direct borrowing from Spanish)
+		\item English: beefsteak
+		\item French: bifteck (borrowed from English \textit{beefsteak})
+	\end{itemize}
+	
+	\subsection*{Summary}
+	\textbf{bife} $\leftarrow$ \textit{beefsteak} (English, "beef + steak") $\leftarrow$ \textit{bœuf} (Old French, "beef")
+	
+	$\Rightarrow$ Adopted from English, \textit{bife} refers to a \textbf{steak} or \textbf{cut of beef}, especially popular in Latin American cuisine.
+	
+
+	\section{Zanahoria}
+	\wordentry{carrot}{
+		Proviene del árabe hispánico \textit{safunnāriyya}, que a su vez proviene del árabe clásico \textit{ṣafannāriyya}, que designaba la zanahoria. Esta palabra está relacionada con el griego \textit{σαφηνάριον} (saphēnárion).
+		\begin{itemize}
+			\item From Arabic: safunnāriyya
+			
+			The Arabic word \textit{safunnāriyya} referred to the \textbf{carrot}, and was used in Al-Andalus (Muslim Spain) to describe this vegetable.
+			
+			\item From Greek: \textit{σαφηνάριον} (saphēnárion)
+			
+			This Greek word, which referred to a \textbf{type of root vegetable}, is the origin of the Arabic term.
+			
+			\item From Ancient Greek: \textit{saphēs} (clear, evident), possibly referring to the bright orange color of the carrot.
+		\end{itemize}
+	}
+	
+	\subsection*{Evolution}
+	\begin{itemize}
+		\item The word \textit{saphēnárion} (Greek) evolved into \textit{safunnāriyya} in Arabic.
+		\item The term \textit{safunnāriyya} was borrowed into Old Spanish during the Muslim rule of the Iberian Peninsula.
+		\item In modern Spanish, it evolved into \textbf{zanahoria}, which refers specifically to the orange root vegetable.
+	\end{itemize}
+	
+	\subsection*{Related words in other languages}
+	\begin{itemize}
+		\item Portuguese: cenoura (from Latin \textit{caenorūca})
+		\item French: carotte (from Latin \textit{carota})
+		\item Italian: carota (from Latin \textit{carota})
+		\item English: carrot (from Old French \textit{carotte})
+	\end{itemize}
+	
+	\subsection*{Summary}
+	\textbf{zanahoria} $\leftarrow$ \textit{safunnāriyya} (Arabic, "carrot") $\leftarrow$ \textit{σαφηνάριον} (Greek, "root vegetable")
+	
+	$\Rightarrow$ The term evolved from Arabic to Spanish and came to refer specifically to the \textbf{carrot}, which was introduced into Spain through contact with the Arab world.
+
+	\section{Frijol}
+	\wordentry{bean}{
+	Del náhuatl \textit{etl} (frijol), a través del español caribeño y del contacto con lenguas indígenas mesoamericanas.
+	\begin{itemize}
+		\item Modern Spanish: frijol (plural: frijoles)
+		
+		\item From Old Spanish: fesol
+		
+		\item From Latin: phaseolus
+		
+		\begin{itemize}
+			\item Diminutive of Greek phasēlos (φάσηλος), meaning bean or kidney bean
+			
+			\item The Greek term itself may have referred to a specific type of legume, possibly the cowpea or black-eyed pea
+		\end{itemize}
+	\end{itemize}
+	}
+	
+	\subsection{Sound Evolution}
+	
+	\begin{itemize}
+		\item Latin phaseolus $\rightarrow$ Old Spanish fesol
+		\item In Spain, fesol evolved into judía (modern word for bean in Spain)
+		\item In Mexico and Central America, the word evolved into frijol, with an influence likely from Caribbean or Mozarabic dialects
+	\end{itemize}
+	
+	\subsection{Regional Variation}
+	
+	\begin{itemize}
+		\item Latin America: frijol is the standard word for bean (especially kidney beans, black beans, pinto beans)
+		\item Spain: judía is more commonly used now
+		\item Catalan: fesol still survives as the word for bean
+		\item Portuguese: feijão
+		\item Italian: fagiolo
+	\end{itemize}
+
+	All of these come from the same Latin root: phaseolus.
+	
+	
+	\subsection{Cultural Importance}
+	
+	\begin{itemize}
+		\item In Mexican, Central American, and Caribbean cuisines, frijoles are essential:
+		\begin{itemize}
+			\item Frijoles negros (black beans)
+			\item Frijoles pintos (pinto beans)
+			\item Frijoles refritos (refried beans)
+		\end{itemize}
+		\item The dish "arroz con frijoles" (rice and beans) is a staple in many countries	
+		\item Frijoles are not just food — they're a symbol of sustenance and identity in many cultures
+	\end{itemize}
+
+	\subsection{Summary}
+	Spanish (LA), Portuguese, Italian, and Catalan derive their word for 'bean' from the Latin word phaseolus. However, Spanish (Spain) is an exception, using the word judía, which is a later adoption and does not stem from phaseolus.
+	
+	\section{Cerveza}
+	\wordentry{beer}{
+	Del latín \textit{cerevisia}, probablemente de origen celta, relacionado con \textit{Ceres} (diosa del grano).
+	\begin{itemize}
+		\item Spanish: cerveza
+		\item From Medieval Latin: cerevisia
+		\item Possibly from Gaulish (Celtic): cervesia or cervisia
+		
+		Related to Ceres, the Roman goddess of agriculture and grain
+	\end{itemize}
+
+	}
+
+	\subsection{Evolution}
+	
+	\begin{itemize}
+		\item Latin: cerevisia
+		
+		\begin{itemize}
+			\item Used by Roman authors to refer to fermented grain drinks (beer), especially in Celtic and Germanic provinces
+			\item In contrast, Romans preferred wine and regarded beer as more "barbaric"
+		\end{itemize}
+		\item The name is likely derived from the name of the goddess Ceres (grain) + a suffix -visia (possibly related to fermentation or drink)
+	\end{itemize}
+	
+	\subsection*{Words in other languages}
+	
+	\begin{itemize}
+		\item Portuguese: cerveja (Latin \textit{cerevisia})
+		
+		\item German: Bier (Proto-Germanic \textit{beuzą})
+		
+		\item French: bière (From Germanic bier)
 	\end{itemize}
 	
 	\subsection{Summary}
 	
-	\textbf{cuchara} ← cochleārium (Late Latin, "spoon for snails") ← cochlea (Latin, "snail, spiral")
+	cerveza $\leftarrow$ Latin cerevisia $\leftarrow$ possibly Celtic root, related to Ceres (grain goddess)
+	$\Rightarrow$ Indicates an ancient grain-based fermented drink
+	$\Rightarrow$ The word survived in Iberian Romance languages but was replaced in others by Germanic influence
 	
-	➡ The name likely came from the \textbf{curved}, \textbf{spiral-like} shape of early spoons resembling snail shells.
+	\section{saludable}
+	\wordentry{healthy}{
+		Proviene del latín \textit{salūdābilis}, que significa “saludable” o “beneficioso para la salud”, derivado de \textit{salūs} (salud) y el sufijo \textit{-ābilis}, que indica capacidad o posibilidad.
+		\begin{itemize}
+			\item From Latin: \textit{salūdābilis}
+			
+			Formed from \textit{salūs} (health, well-being) + \textit{-ābilis} (able to, suitable for), meaning \textbf{conducive to health} or \textbf{promoting well-being}.
+			
+			\item From Latin: \textit{salūs}
+			
+			Meaning \textbf{health}, \textbf{welfare}, or \textbf{safety}. It is also the root of words like \textit{salvation} and \textit{salute} in English.
+		\end{itemize}
+	}
 	
-	\wordentry{frijol}{bean}{
-	Del náhuatl \textit{etl} (frijol), a través del español caribeño y del contacto con lenguas indígenas mesoamericanas.}
+	\subsection*{Evolution}
+	\begin{itemize}
+		\item \textit{salūs} (health) + \textit{-ābilis} (able to) → \textit{salūdābilis} (that promotes health)
+		\item In Old Spanish, this became \textit{saludable}, preserving both form and meaning.
+		\item In modern Spanish, \textit{saludable} means \textbf{healthy} (especially in reference to habits, food, and lifestyles).
+	\end{itemize}
 	
-	\wordentry{cerveza}{beer}{
-	Del latín \textit{cerevisia}, probablemente de origen celta, relacionado con \textit{Ceres} (diosa del grano).}
+	\subsection*{Related words in other languages}
+	\begin{itemize}
+		\item Portuguese: saudável
+		\item Italian: salutare
+		\item French: salubre (more formal), \textit{sain} (common)
+		\item English: salubrious (formal), \textit{healthy}
+	\end{itemize}
 	
-	\wordentry{menudo}{tripe stew, small pieces}{
-	Del latín \textit{minutus}, participio de \textit{minuere} (reducir, disminuir), usado para describir cosas pequeñas.}
+	\subsection*{Summary}
+	\textbf{saludable} $\leftarrow$ \textit{salūdābilis} (Latin, "conducive to health") $\leftarrow$ \textit{salūs} (Latin, "health, well-being")
 	
+	$\Rightarrow$ The word has retained its core meaning over centuries: something that promotes or preserves \textbf{health and well-being}.
+	
+	\chapter{Profesión}
+	
+	\section{Camarero}
+	\wordentry{waiter, bartender}{
+		Proviene del latín \textit{cammerarius}, que significaba "encargado de la cámara" o "sirviente de la cámara". La palabra está relacionada con \textit{camerarius}, que a su vez proviene de \textit{camera} (habitación o cámara).
+		\begin{itemize}
+			\item From Late Latin: cammerarius
+			
+			This referred to a chamberlain or steward in charge of a chamber or room. The term evolved in medieval times to refer to someone in charge of the service in a royal or noble household.
+			
+			\item From Latin: camera
+			
+			Originally meaning chamber, this term referred to a room or a space, which is the source of both \textit{camarero} and the modern English word \textit{chamber}.
+		\end{itemize}
+	}
+	
+	\subsection*{Evolution}
+	\begin{itemize}
+		\item camera (chamber) → \textbf{camerarius} (steward, chamberlain)
+		\item camerarius evolved into \textbf{cammerarius} in Vulgar Latin.
+		\item By the time it entered Spanish as \textbf{camarero}, it came to refer to a \textbf{servant} or \textbf{waiter} who serves in a chamber or dining area.
+	\end{itemize}
+	
+	\subsection*{Related words in other languages}
+	\begin{itemize}
+		\item Portuguese: camareiro (waiter, chamberlain)
+		\item Italian: cameriere (waiter)
+		\item French: camerier (historical term for a servant, but not commonly used today)
+	\end{itemize}
+	
+	\subsection*{Summary}
+	\textbf{camarero} $\leftarrow$ cammerarius (Late Latin, "chamberlain, steward") $\leftarrow$ camera (Latin, "chamber, room")
+	
+	$\Rightarrow$ Originally referring to a servant in charge of a chamber or room, the term evolved to mean \textbf{waiter} or \textbf{bartender} in modern Spanish.
+	
+	%\restoregeometry  % Restore original geometry if needed
 \end{document}
